@@ -1,14 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Imperial from "../assets/images/Imperial-logo.jpg";
 import Google from "../assets/images/google-logo.png";
 
 const LoginForm = () => {
 	const [email, setEmail] = useState("");
+	const navigate = useNavigate();
 
-	// Проверка email
-	const isEmailValid = (email) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(email);
+	const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (isEmailValid(email)) {
+			navigate("/account");
+		}
 	};
 
 	return (
@@ -23,7 +28,7 @@ const LoginForm = () => {
 					Пожалуйста, введите адрес электронной почты
 				</p>
 
-				<form className="mt-6">
+				<form onSubmit={handleSubmit} className="mt-6">
 					<div className="mb-4">
 						<label htmlFor="email" className="sr-only">
 							Электронная почта
@@ -31,12 +36,12 @@ const LoginForm = () => {
 						<input
 							type="email"
 							id="email"
-							name="email" // Добавляем имя поля
+							name="email"
 							placeholder="Введите свой адрес эл. почты"
 							className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-[#33333314] focus:outline-none focus:ring-2 focus:ring-purple-500"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							required // Помечаем как обязательное
+							required
 						/>
 					</div>
 

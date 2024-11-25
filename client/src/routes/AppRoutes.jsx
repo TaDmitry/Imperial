@@ -1,20 +1,13 @@
-import { lazy, Suspense } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-
-// Ленивые загрузки компонентов
-const LoginForm = lazy(() => import("../pages/LoginForm"));
-const PersonalAccount = lazy(() => import("../pages/auth/PersonalAccount"));
+import { Route, Routes } from "react-router-dom";
+import LoginForm from "../pages/LoginForm";
+import PersonalAccount from "../pages/auth/PersonalAccount";
 
 const AppRoutes = () => {
-	const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-
 	return (
-		<Suspense fallback={<div>Загрузка...</div>}>
-			<Routes>
-				<Route path="/" element={<LoginForm />} />
-				<Route path="/account" element={isLoggedIn ? <PersonalAccount /> : <Navigate to="/" replace />} />
-			</Routes>
-		</Suspense>
+		<Routes>
+			<Route path="/" element={<LoginForm />} />
+			<Route path="/account" element={<PersonalAccount />} />
+		</Routes>
 	);
 };
 

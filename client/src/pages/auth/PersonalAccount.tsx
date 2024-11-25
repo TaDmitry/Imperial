@@ -1,25 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-const PersonalAccount: React.FC = () => {
-	const navigate = useNavigate();
-
-	const handleLogout = () => {
-		localStorage.removeItem("isLoggedIn");
-		navigate("/");
-	};
-
+const PersonalAccount = () => {
 	return (
 		<main className="min-h-screen flex items-center justify-center bg-gray-100">
-			<div className="text-center">
-				<h1 className="text-2xl font-bold mb-4">Личный кабинет</h1>
-				<p>Добро пожаловать в вашу учетную запись!</p>
-				<button
-					onClick={handleLogout}
-					className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
-					Выйти
-				</button>
-			</div>
+			<section className="text-center">
+				<h1 className="text-3xl font-semibold text-gray-800">Добро пожаловать в личный кабинет!</h1>
+				<p className="mt-4 text-gray-600">Вы успешно вошли в систему.</p>
+			</section>
 		</main>
 	);
 };
