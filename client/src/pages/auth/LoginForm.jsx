@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Imperial from "../assets/images/Imperial-logo.jpg";
-import Google from "../assets/images/google-logo.png";
+import Imperial from "../../assets/images/Imperial-logo.jpg";
+import Google from "../../assets/images/google-logo.png";
 
 const LoginForm = () => {
 	const [email, setEmail] = useState("");
@@ -19,9 +19,9 @@ const LoginForm = () => {
 	return (
 		<main className="min-h-screen flex items-center justify-center bg-imperialPurple py-10">
 			<section className="w-full max-w-sm sm:bg-white px-10 py-10 rounded-3xl">
-				<header className="flex justify-center mb-6">
+				<div className="flex justify-center mb-6">
 					<img src={Imperial} className="w-12 h-12 rounded-lg" alt="Imperial Logo" />
-				</header>
+				</div>
 
 				<h1 className="text-2xl font-semibold text-center text-white sm:text-gray-800">Войти до IMPERIAL</h1>
 				<p className="text-center mt-2 text-gray-400 sm:text-[#333333b3] text-[0.85rem]">

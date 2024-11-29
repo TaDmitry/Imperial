@@ -5,6 +5,7 @@ export default {
 		extend: {
 			colors: {
 				imperialPurple: "#792683",
+				white10: "#ffffff0d",
 			},
 		},
 	},

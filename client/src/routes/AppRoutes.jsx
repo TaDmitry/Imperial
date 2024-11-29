@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import LoginForm from "../pages/LoginForm";
+import LoginForm from "../pages/auth/LoginForm";
 import PersonalAccount from "../pages/auth/PersonalAccount";
 
 const AppRoutes = () => {
