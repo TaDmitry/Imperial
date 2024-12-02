@@ -6,15 +6,23 @@ import { faChevronLeft, faHouse } from "@fortawesome/free-solid-svg-icons";
 const Sidebar = () => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 	const [isButtonVisible, setButtonVisible] = useState(true);
+	const [isAbsolute, setIsAbsolute] = useState(false);
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (window.innerWidth <= 768) {
+			const width = window.innerWidth;
+
+			if (width <= 640) {
+				setSidebarOpen(true);
+				setIsAbsolute(true);
+			} else if (width <= 768) {
 				setSidebarOpen(false);
 				setButtonVisible(false);
+				setIsAbsolute(false);
 			} else {
 				setSidebarOpen(true);
 				setButtonVisible(true);
+				setIsAbsolute(false);
 			}
 		};
 
@@ -26,15 +34,15 @@ const Sidebar = () => {
 
 	return (
 		<nav
-			className={`bg-imperialPurple text-white flex flex-col transition-width duration-300 ${
+			className={`z-10 bg-imperialPurple text-white flex flex-col ${
 				isSidebarOpen ? "w-64" : "w-16"
-			} h-screen sticky top-0`}>
+			} h-screen ${isAbsolute ? "absolute left-[-16rem]" : "sticky top-0"} transition-[width] duration-300`}>
 			<div>
 				<div className="flex items-center justify-between px-4 py-3">
 					<a className="flex items-center cursor-pointer">
 						<img src={Imperial} alt="Imperial Logo" className="rounded-lg w-8 h-8 flex-shrink-0" />
 						<h1
-							className={`ml-2 font-bold whitespace-nowrap transition-all duration-300 ${
+							className={`ml-2 font-bold whitespace-nowrap transition-opacity duration-300 ${
 								isSidebarOpen ? "opacity-100" : "opacity-0"
 							}`}>
 							IMPERIAL
@@ -42,9 +50,9 @@ const Sidebar = () => {
 					</a>
 					{isButtonVisible && (
 						<button
-							onClick={() => setSidebarOpen(!isSidebarOpen)} // Переключаем состояние боковой панели
-							className={`p-1 bg-imperialPurple text-[#ffffff59] rounded-full border border-solid transition duration-300 ${
-								isSidebarOpen ? "ml-auto" : "fixed left-[3.5rem]"
+							onClick={() => setSidebarOpen(!isSidebarOpen)}
+							className={`p-1 bg-imperialPurple text-[#ffffff59] relative rounded-full border border-solid transition-transform duration-300 ${
+								isSidebarOpen ? "ml-auto" : "left-[-2.5rem]"
 							}`}>
 							<FontAwesomeIcon
 								icon={faChevronLeft}
@@ -83,13 +91,13 @@ const Sidebar = () => {
 				<img
 					src="https://via.placeholder.com/32"
 					alt="User Avatar"
-					className={`w-8 h-8 rounded-full flex-shrink-0 ${!isSidebarOpen ? "ml-[4.5rem]" : ""}`}
+					className={`w-8 h-8 rounded-full flex-shrink-0 ${!isSidebarOpen ? "ml-[6rem]" : ""}`}
 				/>
 				<p
 					className={`ml-2 text-sm transition-opacity duration-300 ${
 						isSidebarOpen ? "opacity-100" : "opacity-0"
 					}`}>
-					Дмитрий Тарасенко
+					Пользователь
 				</p>
 			</div>
 		</nav>
