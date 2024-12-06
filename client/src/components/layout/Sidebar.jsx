@@ -1,43 +1,63 @@
 import { useState, useEffect } from "react";
 import Imperial from "../../assets/images/Imperial-logo.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faHouse } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faHouse, faXmark } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
 
-const Sidebar = () => {
+const Sidebar = ({ onSidebarToggle }) => {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
+	const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(true);
 	const [isButtonVisible, setButtonVisible] = useState(true);
 	const [isAbsolute, setIsAbsolute] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
 		const handleResize = () => {
 			const width = window.innerWidth;
+			setIsMobile(width <= 640);
 
 			if (width <= 640) {
 				setSidebarOpen(true);
+				setMobileSidebarOpen(true);
+				setButtonVisible(true);
 				setIsAbsolute(true);
 			} else if (width <= 768) {
 				setSidebarOpen(false);
+				setMobileSidebarOpen(false);
 				setButtonVisible(false);
 				setIsAbsolute(false);
 			} else {
 				setSidebarOpen(true);
+				setMobileSidebarOpen(false);
 				setButtonVisible(true);
 				setIsAbsolute(false);
 			}
 		};
 
-		window.addEventListener("resize", handleResize);
 		handleResize();
+
+		window.addEventListener("resize", handleResize);
 
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
+	// Обработчик клика на кнопку
+	const handleToggleSidebar = () => {
+		if (window.innerWidth <= 640) {
+			onSidebarToggle(false);
+		} else {
+			setSidebarOpen(!isSidebarOpen);
+		}
+	};
+
 	return (
 		<nav
-			className={`z-10 bg-imperialPurple text-white flex flex-col ${
+			className={`z-10 ${isMobile ? "bg-white" : "bg-imperialPurple text-white"} ${
 				isSidebarOpen ? "w-64" : "w-16"
-			} h-screen ${isAbsolute ? "absolute left-[-16rem]" : "sticky top-0"} transition-[width] duration-300`}>
-			<div>
+			} min-h-full ${
+				isAbsolute ? "absolute left-[-16rem]" : "sticky top-0"
+			} transition-[width] duration-300`}>
+			<div className="h-screen flex flex-col sticky top-0">
 				<div className="flex items-center justify-between px-4 py-3">
 					<a className="flex items-center cursor-pointer">
 						<img src={Imperial} alt="Imperial Logo" className="rounded-lg w-8 h-8 flex-shrink-0" />
@@ -48,16 +68,23 @@ const Sidebar = () => {
 							IMPERIAL
 						</h1>
 					</a>
+
 					{isButtonVisible && (
 						<button
-							onClick={() => setSidebarOpen(!isSidebarOpen)}
-							className={`p-1 bg-imperialPurple text-[#ffffff59] relative rounded-full border border-solid transition-transform duration-300 ${
-								isSidebarOpen ? "ml-auto" : "left-[-2.5rem]"
+							onClick={handleToggleSidebar}
+							className={`p-1 relative rounded-full  border-solid transition-transform duration-300 ${
+								isSidebarOpen || isMobileSidebarOpen ? "ml-auto" : "left-[-2.5rem]"
+							} ${
+								isMobile ? "border-0 bg-white text-[#000000]" : "border bg-imperialPurple text-[#ffffff59]"
 							}`}>
-							<FontAwesomeIcon
-								icon={faChevronLeft}
-								className={`transition-transform duration-300 ${isSidebarOpen ? "" : "rotate-180"}`}
-							/>
+							{isMobileSidebarOpen ? (
+								<FontAwesomeIcon icon={faXmark} className="transition-transform duration-300 text-2xl" />
+							) : (
+								<FontAwesomeIcon
+									icon={faChevronLeft}
+									className={`transition-transform duration-500 ${isSidebarOpen ? "" : "rotate-180"}`}
+								/>
+							)}
 						</button>
 					)}
 				</div>
@@ -82,26 +109,30 @@ const Sidebar = () => {
 						</a>
 					</li>
 				</ul>
-			</div>
 
-			<div
-				className={`mt-auto mb-4 px-4 py-2 flex items-center ${
-					isSidebarOpen ? "justify-start" : "justify-center"
-				}`}>
-				<img
-					src="https://via.placeholder.com/32"
-					alt="User Avatar"
-					className={`w-8 h-8 rounded-full flex-shrink-0 ${!isSidebarOpen ? "ml-[6rem]" : ""}`}
-				/>
-				<p
-					className={`ml-2 text-sm transition-opacity duration-300 ${
-						isSidebarOpen ? "opacity-100" : "opacity-0"
+				<div
+					className={`mt-auto mb-4 px-4 py-2 flex items-center ${
+						isSidebarOpen ? "justify-start" : "justify-center"
 					}`}>
-					Пользователь
-				</p>
+					<img
+						src="https://via.placeholder.com/32"
+						alt="User Avatar"
+						className={`w-8 h-8 rounded-full flex-shrink-0 ${!isSidebarOpen ? "ml-[6rem]" : ""}`}
+					/>
+					<p
+						className={`ml-2 text-sm transition-opacity duration-300 ${
+							isSidebarOpen ? "opacity-100" : "opacity-0"
+						}`}>
+						Пользователь
+					</p>
+				</div>
 			</div>
 		</nav>
 	);
+};
+
+Sidebar.propTypes = {
+	onSidebarToggle: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
