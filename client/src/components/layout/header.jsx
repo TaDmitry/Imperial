@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const Header = ({ onToggleMainClass }) => {
 	return (
-		<header className="bg-imperialPurple text-white py-2 px-4 flex items-center justify-between shadow-md w-full">
+		<header className="bg-imperialPurple text-white py-2 px-4 flex items-center justify-between shadow-md w-full sticky top-0 z-10">
 			<div className="flex items-center w-full">
 				<button
 					className="p-2 bg-transparent border-none focus:outline-none cursor-pointer"
