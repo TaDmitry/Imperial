@@ -5,17 +5,24 @@ import Google from "../../assets/images/google-logo.png";
 
 const LoginForm = () => {
 	const [email, setEmail] = useState("");
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
+	// Проверка валидности email
 	const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+	// Обработчик формы
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (isEmailValid(email)) {
+			const fakeToken = "1234567890"; // Тестовый токен
+			sessionStorage.setItem("token", fakeToken); // Сохраняем токен
+			console.log("Token сохранен:", sessionStorage.getItem("token")); // Проверьте, что токен действительно сохранен
 			navigate("/account");
+		} else {
+			setError("Неверный email!");
 		}
 	};
-
 	return (
 		<main className="min-h-screen flex items-center justify-center bg-imperialPurple py-10">
 			<section className="w-full max-w-sm sm:bg-white px-10 py-10 rounded-3xl">
@@ -23,7 +30,7 @@ const LoginForm = () => {
 					<img src={Imperial} className="w-12 h-12 rounded-lg" alt="Imperial Logo" />
 				</div>
 
-				<h1 className="text-2xl font-semibold text-center text-white sm:text-gray-800">Войти до IMPERIAL</h1>
+				<h1 className="text-2xl font-semibold text-center text-white sm:text-gray-800">Войти в IMPERIAL</h1>
 				<p className="text-center mt-2 text-gray-400 sm:text-[#333333b3] text-[0.85rem]">
 					Пожалуйста, введите адрес электронной почты
 				</p>
@@ -43,6 +50,7 @@ const LoginForm = () => {
 							onChange={(e) => setEmail(e.target.value)}
 							required
 						/>
+						{error && <p className="mt-2 text-red-500 text-sm">{error}</p>}
 					</div>
 
 					<button

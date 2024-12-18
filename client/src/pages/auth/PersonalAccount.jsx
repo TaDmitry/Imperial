@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import Sidebar from "../../components/layout/Sidebar";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../../components/layout/Sidebar/Sidebar";
 import Header from "../../components/layout/Header";
 
 const PersonalAccount = () => {
 	const [isHeaderVisible, setIsHeaderVisible] = useState(false); // Видимость Header
 	const [isRelative, setIsRelative] = useState(false); // Состояние для position: relative
 	const [isMainShifted, setIsMainShifted] = useState(false); // Состояние для управления смещением
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const token = sessionStorage.getItem("token"); // Получаем токен
+		if (!token) {
+			navigate("/"); // Если токена нет, редирект на вход
+		}
+	}, [navigate]);
 
 	const toggleMainClass = () => {
 		setIsMainShifted((prev) => !prev);
